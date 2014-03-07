@@ -11,7 +11,6 @@ def load_users(session):
             id, age, gender, occupation, zipcode = row
             id = int(id)          
             age = int(age)            
-            print id, age, zipcode
             user = model.User(id=id, email=None, password=None,  age=age, zipcode=zipcode)
             session.add(user)
         session.commit()
@@ -26,13 +25,12 @@ def load_movies(session):
             item_id = int(values[0])
             title = values[1].decode("latin_1")
             title = re.sub("\(\d{4}\)", "",title)
+            title = title.strip()
             if values[2] == '':
                 date = None           
             else:
                 date = datetime.datetime.strptime(values[2], "%d-%b-%Y").date()
-            
-            print item_id, title, values[2], date
-           
+
             movie = model.Movie(id=item_id, name=title, released_at=date, imdb_url=values[4])
             session.add(movie)
         session.commit()    
@@ -45,15 +43,14 @@ def load_ratings(session):
             values = row[0].split( )
             rating = model.Rating(movie_id=int(values[1]), user_id=int(values[0]), rating=int(values[2]))
             session.add(rating)
-            print values
         session.commit()          
 
 def main(session):
     # You'll call each of the load_* functions with the session as an argument
-    load_users(session)
-    load_ratings(session)
+    #load_users(session)
+    #load_ratings(session)
     load_movies(session)
-    pass
+    pass 
 
 if __name__ == "__main__":
     s= model.connect()
