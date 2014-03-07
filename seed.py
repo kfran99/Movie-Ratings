@@ -46,21 +46,7 @@ def load_ratings(session):
             rating = model.Rating(movie_id=int(values[1]), user_id=int(values[0]), rating=int(values[2]))
             session.add(rating)
             print values
-        session.commit()    
-        
-     #  Open hard-coded csv file (u.user)
-   #  Get a line a time, parse somehow,
-   # we get a row that looks like 942|48|F|librarian|78209
-   # open  session add row 
-   #  create statements like:
-   #  c.password = "somethingmoresecure"
-   #  charles = User(email="charles@hackbrightacademy.com", password="notsecure",
-   # age=25, zipcode="94103")
-   #   session.add
-   #   session.commit
-   #   close file
-   #   done
-    pass
+        session.commit()          
 
 def main(session):
     # You'll call each of the load_* functions with the session as an argument
