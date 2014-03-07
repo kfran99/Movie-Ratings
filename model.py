@@ -21,7 +21,7 @@ class User(Base):
 class Movie(Base):
     __tablename__ = "movies"
     id = Column(Integer, primary_key = True)
-    name = Column(String(64))
+    name = Column(String(256))
     released_at = Column(Date(timezone=False), nullable=True)
     imdb_url = Column(String(156), nullable=True)
 

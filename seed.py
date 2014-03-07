@@ -1,40 +1,39 @@
 import model
 import csv
 import datetime
+import re
 
 def load_users(session):
     # use u.user
     with open('./seed_data/u.user', 'rb') as f:
-        reader = csv.reader(f)
+        reader = csv.reader(f, delimiter="|")
         for row in reader:
-            values = row[0].split("|")
-            print int(values[0]), int(values[1]), values[4]
-            user = model.User(id=int(values[0]), email='none', password="none",  age=int(values[1]), zipcode=values[4])
+            id, age, gender, occupation, zipcode = row
+            id = int(id)          
+            age = int(age)            
+            print id, age, zipcode
+            user = model.User(id=id, email=None, password=None,  age=age, zipcode=zipcode)
             session.add(user)
         session.commit()
       
 def load_movies(session):
     # use u.item
     with open('./seed_data/u.item', 'rb') as f:
-        reader = csv.reader(f)
-    #     class Movie(Base):
-    # __tablename__ = "movies"
-    # id = Column(Integer, primary_key = True)
-    # name = Column(String(64))
-    # released_at = Column(Date(timezone=False), nullable=True)
-    # imdb_url = Column(String(128), nullable=True)
-
+        reader = csv.reader(f)   
         for row in reader:
             values = ','.join(row)
             values = values.split('|')
+            item_id = int(values[0])
+            title = values[1].decode("latin_1")
+            title = re.sub("\(\d{4}\)", "",title)
             if values[2] == '':
-                values[2] = "01-Jan-1000"
-            print values[0], values[1], values[2]
-            d = datetime.datetime.strptime(values[2], "%d-%b-%Y").date()
-            print d
-
+                date = None           
+            else:
+                date = datetime.datetime.strptime(values[2], "%d-%b-%Y").date()
+            
+            print item_id, title, values[2], date
            
-            movie = model.Movie(id=int(values[0]), name=values[1], released_at=d, imdb_url=values[4])
+            movie = model.Movie(id=item_id, name=title, released_at=date, imdb_url=values[4])
             session.add(movie)
         session.commit()    
 
@@ -65,8 +64,8 @@ def load_ratings(session):
 
 def main(session):
     # You'll call each of the load_* functions with the session as an argument
-    #load_users(session)
-    #load_ratings(session)
+    load_users(session)
+    load_ratings(session)
     load_movies(session)
     pass
 
