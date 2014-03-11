@@ -34,9 +34,18 @@ def user_login():
         ratings = model.session.query(model.Rating).filter_by(user_id=id)    
     return render_template("view_user.html", user=user_list[0],ratings=ratings)    
     
-@app.route("/rate/movie", methods=['GET'])
-def enter_rating():
-    pass
+@app.route("/search/movie", methods=['POST'])
+def movie_search():
+    name = request.form.get("name")
+    print name
+    movies = model.session.query(model.Movie).filter_by(name=name).all()
+    for m in movies:
+         print movies[m].name
+    return "blah blah blah"
+
+@app.route("/search/movie", methods=['GET'])
+def movie_search_form():
+    return render_template("movie_search.html")
 
 # Display a single user record
 @app.route("/user/<id>", methods=['GET'])
