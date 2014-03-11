@@ -1,0 +1,23 @@
+{% extends 'master.html' %}
+{% block body %}
+<ul>
+    {% for message in get_flashed_messages() %}
+        <li>{{ message }}</li>
+         {% endfor %}
+</ul>
+
+<h3>
+User ID: {{user.email}}<br>
+Age: {{user.age}}<br>
+Zipcode: {{zipcode}}<br>
+Number of Movies Rated: {{ user.ratings|length }} <br>
+</h3>
+    <form>
+        <a href="{{url_for('enter_rating')}}" class="btn btn-lg btn-primary btn-block"> Rate a movie or change a rating.</a>
+    </form>
+{% for r in ratings%}
+<h4><b>{{r.movie.name}}</b>: {{r.rating}} Stars</h4>
+{% endfor%}
+
+{% endblock %}
+
