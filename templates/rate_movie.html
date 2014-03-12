@@ -1,12 +1,22 @@
 {% extends 'master.html' %}
 {% block body %}
-    <form class="rating" method="POST" action="/movie/<id>">
+
+<ul>
+    {% for message in get_flashed_messages() %}
+        <li>{{ message }}</li>
+         {% endfor %}
+</ul>
+
+    <form class="rating" method="POST" action="/movie/{{ movie.id }}">
         <h2>Rate This Movie</h2> 
-        
+
 
         <h3>Movie: {{movie.name}}</h3> 
-        <input type="text" class="form-control" placeholder="Rating" name="Rating">      
+        <input type="text" class="form-control" placeholder="Rating" name="rating">      
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">
     </form>
 {% endblock %}    
      
+
+
+

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, flash, session
+from flask import Flask, render_template, redirect, request, flash, session, url_for
 import model
 import hashlib
 
@@ -79,6 +79,19 @@ def view_movie(id):
 
     # Display the movie record and update form
     return render_template("rate_movie.html", movie=movie, ratings=ratings)
+
+@app.route("/movie/<id>", methods=['POST'])
+def rate_movie(id):    
+    rating = request.form.get("rating")
+    user = model.session.query(model.User).filter_by(email=session["username"]).one()
+    rating_exist = model.session.query(model.Rating).filter_by(user_id=user.id, movie_id=id).all()
+    if rating_exist:
+        flash("Rating already exists.")
+        return redirect(url_for('view_user', id=user.id))
+    new_rating = model.Rating(user_id=user.id, movie_id=id, rating=rating)      
+    model.session.add(new_rating)
+    model.session.commit()
+    return redirect(url_for('view_user', id=user.id))
 
 # Create a new user
 @app.route("/user/new", methods=['GET'])
