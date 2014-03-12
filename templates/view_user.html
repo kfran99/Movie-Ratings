@@ -7,17 +7,20 @@
 </ul>
 
 <h3>
-User ID: {{user.email}}<br>
+User ID: {{user.id}}<br>
+Email: {{user.email}}<br>
 Age: {{user.age}}<br>
-Zipcode: {{zipcode}}<br>
+Zipcode: {{user.zipcode}}<br>
 Number of Movies Rated: {{ user.ratings|length }} <br>
 </h3>
     <form>
-        <a href="{{url_for('movie_search')}}" class="btn btn-lg btn-primary btn-block"> Rate a movie or change a rating.</a>
+        <a href="{{url_for('movie_search')}}" class="btn btn-lg btn-primary btn-block"> Search for a movie.</a>
     </form>
 {% for r in ratings%}
-<h4><b>{{r.movie.name}}</b>: {{r.rating}} Stars</h4>
+<h4><b><a href="{{url_for('view_movie', id=r.movie.id) }}"> {{r.movie.name}}</a></b>: {{r.rating}} Stars</h4>
 {% endfor%}
 
 {% endblock %}
+
+
 

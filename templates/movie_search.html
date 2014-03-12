@@ -1,5 +1,10 @@
-{% extends 'master.html' %}
+{% extends 'master.html' %}  
 {% block body %}
+    <ul>
+        {% for message in get_flashed_messages() %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
     <form class="title_search" method="POST" action="/search/movie">
         <input type="text" class="form-control" placeholder="Movie Title" name="name">
          <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">    
